@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, url_for, flash, redirect
-app = Flask(__name__)
+app = Flask(_name_)
 import pymssql
 
 
@@ -50,10 +50,60 @@ def index():
             results.append(row)
             print("ROW",row)
         conn.close()
-        if(results[0]['Resultado']=='Credenciales inválidas'):
-            return render_template('index.html',error='Combinación de usuario/password no existe en la BD')
+        print("RESULT",results[0])
+        print(results[0].get('userName'))
+        if(results[0].get('UserName')!=None):
+            request.method=='GET'
+            return articles(results[0],"ALL")
+            
         else:
-            return render_template('index.html',error='Login correcto')
+            return render_template('index.html',error='Combinación de usuario/password no existe en la BD')
+            # return articles("")
+
+
+@app.route('/articles',methods=["POST","GET"])
+def articles(user,instruction):
+    # print("re")
+    print("USER ",user)
+    print("request",request.method)
+
+    if request.method=="POST" and instruction=="ALL":
+        #  articulos=obtenerArticulos()
+        #  print(articulos)
+        print("IF")
+        conn = pymssql.connect('servertarels.database.windows.net', "bd", "Tantan20", "Tarea2")
+        cursor = conn.cursor(as_dict=True)
+        print("CONN",conn)
+        cursor = conn.cursor(as_dict=True)
+        results=[]
+        cursor.execute(f"EXEC BuscarArticulosPorNombre @nombreBuscado = '', @user='{user['id']}',@ip='{request.remote_addr}'")
+        for row in cursor:
+            results.append(row)
+            print("ROW",row)
+        conn.close()
+        print("RESULTS",results)
+        return render_template('articles.html',userName=user['UserName'],info=results)
+    else:
+        print("ELSE")
+        return render_template('articles.html',userName=user['UserName'])
+    #     print("ES EL POST")
+    #     print("REQUEST FORM",request.form) 
+    #     userName=request.form["userName"]
+    #     password=request.form["password"]
+    #     conn = pymssql.connect('servertarels.database.windows.net', "bd", "Tantan20", "Tarea2")
+    #     cursor = conn.cursor(as_dict=True)
+    #     print("CONN",conn)
+    #     cursor = conn.cursor(as_dict=True)
+    #     results=[]
+    #     cursor.execute(f"EXEC VerificarCredenciales @nombreUsuario = '{userName}', @password = '{password}'")
+    #     for row in cursor:
+    #         results.append(row)
+    #         print("ROW",row)
+    #     conn.close()
+    #     if(results[0]['Resultado']=='Credenciales inválidas'):
+    #         return render_template('index.html',error='Combinación de usuario/password no existe en la BD')
+    #     else:
+    #         return render_template('index.html',error='Login correcto')
 
         
         
