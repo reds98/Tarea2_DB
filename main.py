@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, url_for, flash, redirect
-app = Flask(__name__)
+app = Flask(_name_)
 import pymssql
 
 
@@ -97,7 +97,7 @@ def articles():
         return render_template('articles.html',info=results,opciones=categories)
     
     elif(request.args.get('name')!=None):
-        print("ELSE de articulos")
+        print("ELSE de NOMBRE")
         conn = pymssql.connect('servertarels.database.windows.net', "bd", "Tantan20", "Tarea2")
         cursor = conn.cursor(as_dict=True)
         print("CONN",conn)
@@ -122,7 +122,7 @@ def articles():
         print("RESULTS",categories)
         return render_template('articles.html',info=results,opciones=categories)
     elif(request.args.get('amount')!=None):
-        print("ELSE de articulos")
+        print("ELSE de CANTIDAD")
         conn = pymssql.connect('servertarels.database.windows.net', "bd", "Tantan20", "Tarea2")
         cursor = conn.cursor(as_dict=True)
         print("CONN",conn)
@@ -149,7 +149,7 @@ def articles():
     
     elif(request.args.get('categoria')!=None):
         print("el nombre de la clase es ==>",request.args.get('categoria'))
-        print("ELSE de articulos")
+        print("ELSE de CATEGORIAS")
         conn = pymssql.connect('servertarels.database.windows.net', "bd", "Tantan20", "Tarea2")
         cursor = conn.cursor(as_dict=True)
         print("CONN",conn)
@@ -172,6 +172,44 @@ def articles():
             print("categorias",row)
         conn.close()
         print("RESULTS",categories)
+        return render_template('articles.html',info=results,opciones=categories)
+    elif(request.args.get('inputName')!=None):
+       
+        print("ELSE de INSERTAR")
+        conn = pymssql.connect('servertarels.database.windows.net', "bd", "Tantan20", "Tarea2")
+        print("valores a insertar==>",request.args.get('inputName'),request.args.get('categoriasInput'),request.args.get('inputPrice'))
+        cursor = conn.cursor(as_dict=True)
+        print("CONN",conn)
+        cursor = conn.cursor(as_dict=True)
+        cursor.execute(f"EXEC InsertarArticulo @nombreArticulo='{request.args.get('inputName')}',@nombreClase='{request.args.get('categoriasInput')}',@precio='{request.args.get('inputPrice')}', @user='2',@ip='{request.remote_addr}'")
+        print("DESPUES DE INSERTAR")
+        for row in cursor:
+            
+            print("resultado insertar",row)
+        conn.close()
+        conn = pymssql.connect('servertarels.database.windows.net', "bd", "Tantan20", "Tarea2")
+        cursor = conn.cursor(as_dict=True)
+        print("CONN",conn)
+        cursor = conn.cursor(as_dict=True)
+        results=[]
+        cursor.execute(f"EXEC BuscarArticulosPorNombre @nombreBuscado = '', @user='{1}',@ip='{request.remote_addr}'")
+        for row in cursor:
+            results.append(row)
+            print("ROW",row)
+        conn.close()
+        print("RESULTS",results)
+        conn = pymssql.connect('servertarels.database.windows.net', "bd", "Tantan20", "Tarea2")
+        cursor = conn.cursor(as_dict=True)
+        print("CONN",conn)
+        cursor = conn.cursor(as_dict=True)
+        categories=[]
+        cursor.execute(f"EXEC obtenerClases @user='2',@ip='{request.remote_addr}'")
+        for row in cursor:
+            categories.append(row)
+            print("categorias",row)
+        conn.close()
+        print("RESULTS",categories)
+      
         return render_template('articles.html',info=results,opciones=categories)
     else:
         print("ESLSE ERROR")
