@@ -9,15 +9,72 @@
     
   
    <h1>Articulos</h1>
-   <h2>Bienvenido {{userName}}</h2>
-   <input onkeydown="return /[a-z]/i.test(event.key)" type="text" class="form-control sm mb-3 mt-3" id="exampleInputEmail1" name="userName" aria-describedby="emailHelp" required>
-
-   <input class="btn btn-primary" type="button" id="btnClose" value="Filtrar por nombre " onclick="closeWindow();" />
-   <input class="btn btn-primary" type="button" id="btnClose" value="Filtrar por cantidad" onclick="closeWindow();" />
-   <input class="btn btn-primary" type="button" id="btnClose" value="Filtrar por clase de articulo" onclick="closeWindow();" />
-   <input class="btn btn-danger" type="button" id="btnClose" value="Insertar" onclick="closeWindow();" />
-   <input class="btn btn-danger" type="button" id="btnClose" value="Salir" onclick="closeWindow();" />
   
+   <form method="POST">
+   <div style="width: 35%; display: flex;  align-items: center;" class="seccion">
+   
+    <input style="" onkeydown="return /[a-z]/i.test(event.key)" id="name" type="text" class="form-control sm mb-3 mt-3" id="exampleInputEmail1" name="nombre"  >
+    <button style="width: 100%; height: 60%;"   class="btn btn-primary" type="button" onclick="filterWithName()" >Filtrar por Nombre</button>
+   
+   <!-- <input style="width: 100%; height: 60%;" class="btn btn-primary" type="submit" id="btnClose" value="nombre " onclick="closeWindow();" /> -->
+   </div>
+
+   <div style="width: 35%; display: flex;  align-items: center;" class="seccion">
+   
+    <input style="" onkeydown="return /[a-z]/i.test(event.key)" id="amount" type="number" class="form-control sm mb-3 mt-3" id="exampleInputEmail1" name="nombre"  >
+    <button style="width: 100%; height: 60%;"   class="btn btn-primary" type="button" onclick="filterWithAmount()" >Filtrar por Cantidad</button>
+   
+   <!-- <input style="width: 100%; height: 60%;" class="btn btn-primary" type="submit" id="btnClose" value="nombre " onclick="closeWindow();" /> -->
+   </div>
+
+   <div style="width: 50%; display: flex;  align-items: center;" class="seccion">
+   
+
+
+
+
+    <label for="cars">Seleccione una categoria:</label>
+    <select style="width: 50%; "  name="categorias" id="categorias" multiple>
+      
+    {% for opcion in opciones %}
+    <option value="{{opcion['Nombre']}}">{{opcion['Nombre']}}</option>
+   
+    {% endfor %}
+   
+  </select>
+    <button style="width: 50%; height: 60%;"   class="btn btn-primary" type="button" onclick="filterWitCategoryt()" >Filtrar por Categoria</button>
+   
+   <!-- <input style="width: 100%; height: 60%;" class="btn btn-primary" type="submit" id="btnClose" value="nombre " onclick="closeWindow();" /> -->
+   </div>
+
+
+   <div style="width: 100%; display: flex;  align-items: center; justify-content: space-evenly; " class="seccion">
+    <label for="cars">Nombre del Articulo:</label>
+    <input style="width: 25%;" onkeydown="return /[a-z]/i.test(event.key)" type="text" class="form-control sm mb-3 mt-3" id="inputName" name="nombre"  >
+    <label for="cars">Precio del Articulo:</label>
+    <input style="width: 25%;"  id="inputPrice" type="number" class="form-control sm mb-3 mt-3" name="nombre"  >
+    
+    <label for="cars">Categorias Disponibles:</label>
+    <select style="width: 25%; "  name="categorias" id="categoriasInput" multiple>
+      
+    {% for opcion in opciones %}
+    <option value="{{opcion['Nombre']}}">{{opcion['Nombre']}}</option>
+   
+    {% endfor %}
+    
+   
+  </select>
+  
+   <!-- <input style="width: 100%; height: 60%;" class="btn btn-primary" type="submit" id="btnClose" value="nombre " onclick="closeWindow();" /> -->
+   </div>
+   <button    class="btn btn-success" type="button" onclick="filterWithAmount()" >Agregar Articulo</button>
+
+   <div style="width: 50%; display: flex;  align-items: center;" class="seccion">
+
+  
+   
+  
+  </form>
 
 
    <table class="table">
@@ -55,6 +112,33 @@
 <script type="text/javascript">
     function closeWindow(){
        window.open(window.location, '_self').close();
+    }
+    function filterWithName(){
+    var nombreValue = document.getElementById('name').value 
+
+    window.location.replace(`/articles?name=${nombreValue}`)
+
+    }
+    function filterWithAmount(){
+    var nombreValue = document.getElementById('amount').value 
+
+    window.location.replace(`/articles?amount=${nombreValue}`)
+
+    }
+    function filterWitCategoryt(){
+    var nombreValue = document.getElementById('categorias').value 
+
+    window.location.replace(`/articles?categoria=${nombreValue}`)
+
+    }
+
+    function AddItem(){
+    var categoria = document.getElementById('categoriasInput').value 
+    var nombre = document.getElementById('inputName').value 
+    var precio = document.getElementById('inputName').value 
+
+    window.location.replace(`/articles?categoria=${nombreValue}`)
+
     }
 </script>
 

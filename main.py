@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, url_for, flash, redirect
-app = Flask(_name_)
+app = Flask(__name__)
 import pymssql
 
 
@@ -54,7 +54,7 @@ def index():
         print(results[0].get('userName'))
         if(results[0].get('UserName')!=None):
             request.method=='GET'
-            return articles(results[0],"ALL")
+            return articles()
             
         else:
             return render_template('index.html',error='Combinación de usuario/password no existe en la BD')
@@ -62,12 +62,14 @@ def index():
 
 
 @app.route('/articles',methods=["POST","GET"])
-def articles(user,instruction):
+def articles():
     # print("re")
-    print("USER ",user)
+    # print("USER ",user)
     print("request",request.method)
-
-    if request.method=="POST" and instruction=="ALL":
+    print("REQUEST FORM",request.form)
+    print("ARGS==>",request.args)
+    # print("VALOR DEL NOMBRE TU PUEDES", "nombre" in request.form)
+    if request.method=="POST" and request.form.get('userName')!=None:
         #  articulos=obtenerArticulos()
         #  print(articulos)
         print("IF")
@@ -76,16 +78,103 @@ def articles(user,instruction):
         print("CONN",conn)
         cursor = conn.cursor(as_dict=True)
         results=[]
-        cursor.execute(f"EXEC BuscarArticulosPorNombre @nombreBuscado = '', @user='{user['id']}',@ip='{request.remote_addr}'")
+        cursor.execute(f"EXEC BuscarArticulosPorNombre @nombreBuscado = '', @user='{1}',@ip='{request.remote_addr}'")
+        for row in cursor:
+            results.append(row)
+            print("ROW",row)
+        conn.close()
+        conn = pymssql.connect('servertarels.database.windows.net', "bd", "Tantan20", "Tarea2")
+        cursor = conn.cursor(as_dict=True)
+        print("CONN",conn)
+        cursor = conn.cursor(as_dict=True)
+        categories=[]
+        cursor.execute(f"EXEC obtenerClases @user='2',@ip='{request.remote_addr}'")
+        for row in cursor:
+            categories.append(row)
+            print("categorias",row)
+        conn.close()
+        print("RESULTS",categories)
+        return render_template('articles.html',info=results,opciones=categories)
+    
+    elif(request.args.get('name')!=None):
+        print("ELSE de articulos")
+        conn = pymssql.connect('servertarels.database.windows.net', "bd", "Tantan20", "Tarea2")
+        cursor = conn.cursor(as_dict=True)
+        print("CONN",conn)
+        cursor = conn.cursor(as_dict=True)
+        results=[]
+        cursor.execute(f"EXEC BuscarArticulosPorNombre @nombreBuscado = '{request.args['name']}', @user='1',@ip='{request.remote_addr}'")
         for row in cursor:
             results.append(row)
             print("ROW",row)
         conn.close()
         print("RESULTS",results)
-        return render_template('articles.html',userName=user['UserName'],info=results)
+        conn = pymssql.connect('servertarels.database.windows.net', "bd", "Tantan20", "Tarea2")
+        cursor = conn.cursor(as_dict=True)
+        print("CONN",conn)
+        cursor = conn.cursor(as_dict=True)
+        categories=[]
+        cursor.execute(f"EXEC obtenerClases @user='2',@ip='{request.remote_addr}'")
+        for row in cursor:
+            categories.append(row)
+            print("categorias",row)
+        conn.close()
+        print("RESULTS",categories)
+        return render_template('articles.html',info=results,opciones=categories)
+    elif(request.args.get('amount')!=None):
+        print("ELSE de articulos")
+        conn = pymssql.connect('servertarels.database.windows.net', "bd", "Tantan20", "Tarea2")
+        cursor = conn.cursor(as_dict=True)
+        print("CONN",conn)
+        cursor = conn.cursor(as_dict=True)
+        results=[]
+        cursor.execute(f"EXEC SeleccionarArticulosPorOrdenAlfabetico @n = '{request.args['amount']}', @user='2',@ip='{request.remote_addr}'")
+        for row in cursor:
+            results.append(row)
+            print("ROW",row)
+        conn.close()
+        print("RESULTS",results)
+        conn = pymssql.connect('servertarels.database.windows.net', "bd", "Tantan20", "Tarea2")
+        cursor = conn.cursor(as_dict=True)
+        print("CONN",conn)
+        cursor = conn.cursor(as_dict=True)
+        categories=[]
+        cursor.execute(f"EXEC obtenerClases @user='2',@ip='{request.remote_addr}'")
+        for row in cursor:
+            categories.append(row)
+            print("categorias",row)
+        conn.close()
+        print("RESULTS",categories)
+        return render_template('articles.html',info=results,opciones=categories)
+    
+    elif(request.args.get('categoria')!=None):
+        print("el nombre de la clase es ==>",request.args.get('categoria'))
+        print("ELSE de articulos")
+        conn = pymssql.connect('servertarels.database.windows.net', "bd", "Tantan20", "Tarea2")
+        cursor = conn.cursor(as_dict=True)
+        print("CONN",conn)
+        cursor = conn.cursor(as_dict=True)
+        results=[]
+        cursor.execute(f"EXEC SeleccionarArticulosPorClase @nombreClase = '{request.args.get('categoria')}', @user='2',@ip='{request.remote_addr}'")
+        for row in cursor:
+            results.append(row)
+            print("ROW",row)
+        conn.close()
+        print("RESULTS",results)
+        conn = pymssql.connect('servertarels.database.windows.net', "bd", "Tantan20", "Tarea2")
+        cursor = conn.cursor(as_dict=True)
+        print("CONN",conn)
+        cursor = conn.cursor(as_dict=True)
+        categories=[]
+        cursor.execute(f"EXEC obtenerClases @user='2',@ip='{request.remote_addr}'")
+        for row in cursor:
+            categories.append(row)
+            print("categorias",row)
+        conn.close()
+        print("RESULTS",categories)
+        return render_template('articles.html',info=results,opciones=categories)
     else:
-        print("ELSE")
-        return render_template('articles.html',userName=user['UserName'])
+        print("ESLSE ERROR")
     #     print("ES EL POST")
     #     print("REQUEST FORM",request.form) 
     #     userName=request.form["userName"]
