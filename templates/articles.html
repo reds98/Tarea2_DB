@@ -1,87 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Articulos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <meta charset="UTF-8">
+  <title>Articulos</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
+
 <body>
-    
-  
-   <h1>Articulos</h1>
-  
-   <form method="POST">
-   <div style="width: 35%; display: flex;  align-items: center;" class="seccion">
-   
-    <input style="" onkeydown="return /[a-z]/i.test(event.key)" id="name" type="text" class="form-control sm mb-3 mt-3" id="exampleInputEmail1" name="nombre"  >
-    <button style="width: 100%; height: 60%;"   class="btn btn-primary" type="button" onclick="filterWithName()" >Filtrar por Nombre</button>
-   
-   <!-- <input style="width: 100%; height: 60%;" class="btn btn-primary" type="submit" id="btnClose" value="nombre " onclick="closeWindow();" /> -->
-   </div>
-
-   <div style="width: 35%; display: flex;  align-items: center;" class="seccion">
-   
-    <input style="" onkeydown="return /[a-z]/i.test(event.key)" id="amount" type="number" class="form-control sm mb-3 mt-3" id="exampleInputEmail1" name="nombre"  >
-    <button style="width: 100%; height: 60%;"   class="btn btn-primary" type="button" onclick="filterWithAmount()" >Filtrar por Cantidad</button>
-   
-   <!-- <input style="width: 100%; height: 60%;" class="btn btn-primary" type="submit" id="btnClose" value="nombre " onclick="closeWindow();" /> -->
-   </div>
-
-   <div style="width: 50%; display: flex;  align-items: center;" class="seccion">
-   
 
 
+  <h1>Articulos</h1>
+
+  <form method="POST">
+    <div style="width: 35%; display: flex;  align-items: center;" class="seccion">
+
+      <input style="" onkeydown="return /[a-z]/i.test(event.key)" id="name" type="text"
+        class="form-control sm mb-3 mt-3" id="exampleInputEmail1" name="nombre">
+      <button style="width: 100%; height: 60%;" class="btn btn-primary" type="button" onclick="filterWithName()">Filtrar
+        por Nombre</button>
+
+      <!-- <input style="width: 100%; height: 60%;" class="btn btn-primary" type="submit" id="btnClose" value="nombre " onclick="closeWindow();" /> -->
+    </div>
+
+    <div style="width: 35%; display: flex;  align-items: center;" class="seccion">
+
+      <input style="" onkeydown="return /[a-z]/i.test(event.key)" id="amount" type="number"
+        class="form-control sm mb-3 mt-3" id="exampleInputEmail1" name="nombre">
+      <button style="width: 100%; height: 60%;" class="btn btn-primary" type="button"
+        onclick="filterWithAmount()">Filtrar por Cantidad</button>
+
+      <!-- <input style="width: 100%; height: 60%;" class="btn btn-primary" type="submit" id="btnClose" value="nombre " onclick="closeWindow();" /> -->
+    </div>
+
+    <div style="width: 50%; display: flex;  align-items: center;" class="seccion">
 
 
-    <label for="cars">Seleccione una categoria:</label>
-    <select style="width: 50%; "  name="categorias" id="categorias" multiple>
-      
-    {% for opcion in opciones %}
-    <option value="{{opcion['Nombre']}}">{{opcion['Nombre']}}</option>
-   
-    {% endfor %}
-   
-  </select>
-    <button style="width: 50%; height: 60%;"   class="btn btn-primary" type="button" onclick="filterWitCategoryt()" >Filtrar por Categoria</button>
-   
-   <!-- <input style="width: 100%; height: 60%;" class="btn btn-primary" type="submit" id="btnClose" value="nombre " onclick="closeWindow();" /> -->
-   </div>
 
 
-   <div style="width: 100%; display: flex;  align-items: center; justify-content: space-evenly; " class="seccion">
-    <label for="cars">Nombre del Articulo:</label>
-    <input style="width: 25%;" onkeydown="return /[a-z]/i.test(event.key)" type="text" class="form-control sm mb-3 mt-3" id="inputName" name="nombre"  >
-    <label for="cars">Precio del Articulo:</label>
-    <input style="width: 25%;"  id="inputPrice" type="number" class="form-control sm mb-3 mt-3" name="nombre"  >
-    
-    <label for="cars">Categorias Disponibles:</label>
-    <select style="width: 25%; "  name="categorias" id="categoriasInput" multiple>
-      
-    {% for opcion in opciones %}
-    <option value="{{opcion['Nombre']}}">{{opcion['Nombre']}}</option>
-   
-    {% endfor %}
-    
-   
-  </select>
-  
-   <!-- <input style="width: 100%; height: 60%;" class="btn btn-primary" type="submit" id="btnClose" value="nombre " onclick="closeWindow();" /> -->
-   </div>
-   <button    class="btn btn-success" type="button" onclick="AddItem()" >Agregar Articulo</button>
 
-   <div style="width: 50%; display: flex;  align-items: center;" class="seccion">
+      <label for="cars">Seleccione una categoria:</label>
+      <select style="width: 50%; " name="categorias" id="categorias" multiple>
 
-  
-   
-  
+        {% for opcion in opciones %}
+        <option value="{{opcion['Nombre']}}">{{opcion['Nombre']}}</option>
+
+        {% endfor %}
+
+      </select>
+      <button style="width: 50%; height: 60%;" class="btn btn-primary" type="button"
+        onclick="filterWithCategory()">Filtrar por Categoria</button>
+
+      <!-- <input style="width: 100%; height: 60%;" class="btn btn-primary" type="submit" id="btnClose" value="nombre " onclick="closeWindow();" /> -->
+    </div>
+
+
+    <div style="width: 100%; display: flex;  align-items: center; justify-content: space-evenly; " class="seccion">
+      <label for="cars">Nombre del Articulo:</label>
+      <input style="width: 25%;" onkeydown="return /[a-z]/i.test(event.key)" type="text"
+        class="form-control sm mb-3 mt-3" id="inputName" name="nombre">
+      <label for="cars">Codigo del Articulo:</label>
+      <input style="width: 25%;" onkeydown="return /[a-z]/i.test(event.key)" type="text"
+        class="form-control sm mb-3 mt-3" id="CodeInput" name="codigo">
+      <label for="cars">Precio del Articulo:</label>
+      <input style="width: 25%;" id="inputPrice" type="number" class="form-control sm mb-3 mt-3" name="nombre">
+
+      <label for="cars">Categorias Disponibles:</label>
+      <select style="width: 25%; " name="categorias" id="categoriasInput" multiple>
+
+        {% for opcion in opciones %}
+        <option value="{{opcion['Nombre']}}">{{opcion['Nombre']}}</option>
+
+        {% endfor %}
+
+
+      </select>
+
+    </div>
+
+
+    <button class="btn btn-success" type="button" onclick="AddItem()">Agregar Articulo</button>
+    <button class="btn btn-danger" type="button" onclick="deleteItem()">Eliminar Articulo</button>
+
+    <div style="width: 50%; display: flex;  align-items: center;" class="seccion">
+
+
+
+
   </form>
 
 
-   <table class="table">
+  <table class="table">
     <thead>
       <tr>
-        <th scope="col">ID</th>
-        <th scope="col">ID Clase</th>
+        <th scope="col">CODIGO</th>
+        <th scope="col">Clase</th>
         <th scope="col">Nombre</th>
         <th scope="col">Precio</th>
       </tr>
@@ -97,50 +111,104 @@
       {% for articulo in info %}
       <tr>
         <!-- <th scope="row"></th> -->
-        <td>{{ articulo['id'] }}</td>
-        <td>{{ articulo['IdClaseArticulo'] }}</td>
-        <td>{{ articulo['Nombre'] }}</td>
+        <td>{{ articulo['Codigo'] }}</td>
+        <td>{{ articulo['Nombre de la Clase del Artículo'] }}</td>
+        <td>{{ articulo['Nombre del Artículo'] }}</td>
         <td>{{ articulo['Precio'] }}</td>
       </tr>
       {% endfor %}
       {% endblock %}
     </tbody>
   </table>
-  
 
 
-<script type="text/javascript">
-    function closeWindow(){
-       window.open(window.location, '_self').close();
+
+  <script type="text/javascript">
+    function closeWindow() {
+      window.open(window.location, '_self').close();
     }
-    function filterWithName(){
-    var nombreValue = document.getElementById('name').value 
+    // function filterWithName() {
+    //   var nombreValue = document.getElementById('name').value
 
-    window.location.replace(`/articles?name=${nombreValue}`)
+    //   window.location.replace(`/articles?name=${nombreValue}`)
 
-    }
-    function filterWithAmount(){
-    var nombreValue = document.getElementById('amount').value 
+    // }
 
-    window.location.replace(`/articles?amount=${nombreValue}`)
-
-    }
-    function filterWitCategoryt(){
-    var nombreValue = document.getElementById('categorias').value 
-
-    window.location.replace(`/articles?categoria=${nombreValue}`)
-
+    function obtenerUserIdDeURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('userId');
     }
 
-    function AddItem(){
-    var categoria = document.getElementById('categoriasInput').value 
-    var nombre = document.getElementById('inputName').value 
-    var precio = document.getElementById('inputPrice').value 
-    window.location.replace(`/articles?inputName=${nombre}&categoriasInput=${categoria}&inputPrice=${precio}`)
+
+    function filterWithCategory() {
+      var nombreValue = document.getElementById('categorias').value;
+      var userId = obtenerUserIdDeURL();
+      console.log("USER ID", userId);
+
+      // Verifica si se obtuvo el userId de la URL
+      if (userId !== null) {
+        // Redirige a la misma ruta, pero con el parámetro categoria y userId
+        window.location.href = `/articles?userId=${userId}&categoria=${nombreValue}`;
+      } else {
+        console.error("No se encontró el userId en la URL.");
+      }
+    }
+
+
+    function filterWithAmount() {
+      var nombreValue = document.getElementById('amount').value
+      var userId = obtenerUserIdDeURL();
+      console.log("USER ID", userId);
+
+      // Verifica si se obtuvo el userId de la URL
+      if (userId !== null) {
+        // Redirige a la misma ruta, pero con el parámetro categoria y userId
+        window.location.href = `/articles?userId=${userId}&cantidad=${nombreValue}`;
+      } else {
+        console.error("No se encontró el userId en la URL.");
+      }
+
+      // window.location.replace(`/articles?amount=${nombreValue}`)
 
     }
-</script>
 
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    function filterWithName() {
+      var nombreValue = document.getElementById('name').value
+      var userId = obtenerUserIdDeURL();
+      console.log("USER ID", userId);
+
+      // Verifica si se obtuvo el userId de la URL
+      if (userId !== null) {
+        // Redirige a la misma ruta, pero con el parámetro categoria y userId
+        window.location.href = `/articles?userId=${userId}&nombre=${nombreValue}`;
+      } else {
+        console.error("No se encontró el userId en la URL.");
+      }
+      // window.location.replace(`/articles?name=${nombreValue}`)
+
+    }
+
+    function AddItem() {
+      var userId = obtenerUserIdDeURL();
+      var categoria = document.getElementById('categoriasInput').value
+      var nombre = document.getElementById('inputName').value
+      var precio = document.getElementById('inputPrice').value
+      var codigo = document.getElementById('CodeInput').value
+      window.location.replace(`/articles?userId=${userId}&inputName=${nombre}&categoriasInput=${categoria}&inputPrice=${precio}&inputCode=${codigo}`)
+
+    }
+
+    function deleteItem() {
+      var userId = obtenerUserIdDeURL();
+
+      window.location.replace(`/searchForDelete?userId=${userId}`)
+
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
 </body>
+
 </html>
